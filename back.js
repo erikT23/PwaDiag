@@ -69,17 +69,14 @@ function updateTable(records) {
     numberCell.textContent = index + 1;
 
     const titleCell = newRow.insertCell(1);
-    titleCell.textContent = record.first_name; // Access 'first_name' property
+    titleCell.textContent = record.first_name; 
 
     const descriptionCell = newRow.insertCell(2);
-    descriptionCell.textContent = record.last_name; // Access 'last_name' property
+    descriptionCell.textContent = record.last_name; 
 
     const authorCell = newRow.insertCell(3);
-    authorCell.textContent = record.email; // Access 'email' property
+    authorCell.textContent = record.email; 
 
-    const creationDateCell = newRow.insertCell(4);
-    // Since there's no 'createdAt' property in the data, you can leave this cell empty or set your own data if needed.
-    creationDateCell.textContent = '';
   });
 }
 
