@@ -46,21 +46,21 @@ function sendDataToEndpoint(data) {
 }
 
 function showAll() {
-  const url = 'https://reqres.in/api/users?page=2';
+  const url = "https://reqres.in/api/users?page=2";
   fetch(url)
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       updateTable(data);
     })
-    .catch(error => {
-      console.error('Error al obtener los registros:', error);
+    .catch((error) => {
+      console.error("Error al obtener los registros:", error);
     });
 }
 
 function updateTable(records) {
-  const tableBody = document.querySelector('tbody');
+  const tableBody = document.querySelector("tbody");
 
-  tableBody.innerHTML = '';
+  tableBody.innerHTML = "";
 
   records.data.forEach((record, index) => {
     const newRow = tableBody.insertRow();
@@ -69,28 +69,28 @@ function updateTable(records) {
     numberCell.textContent = index + 1;
 
     const titleCell = newRow.insertCell(1);
-    titleCell.textContent = record.first_name; 
+    titleCell.textContent = record.first_name;
 
     const descriptionCell = newRow.insertCell(2);
-    descriptionCell.textContent = record.last_name; 
+    descriptionCell.textContent = record.last_name;
 
     const authorCell = newRow.insertCell(3);
-    authorCell.textContent = record.email; 
-
+    authorCell.textContent = record.email;
   });
 }
 
 function updateRecord() {
-  const id = document.getElementById('editId').value;
-  const title = document.getElementById('editTitle').value;
-  const description = document.getElementById('editDescription').value;
+  const id = document.getElementById("editId").value;
+  const title = document.getElementById("editTitle").value;
+  const description = document.getElementById("editDescription").value;
+  const author = document.getElementById("editAuthor").value;
 
   if (!id || !title || !description || !author) {
     Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Por favor, completa todos los campos antes de guardar los cambios.',
-      confirmButtonText: 'Aceptar',
+      icon: "error",
+      title: "Error",
+      text: "Por favor, completa todos los campos antes de guardar los cambios.",
+      confirmButtonText: "Aceptar",
       allowOutsideClick: () => Swal.isVisible(),
     });
     return;
@@ -98,97 +98,97 @@ function updateRecord() {
 
   const data = {
     name: title,
-    job: description,
-    
+    last_name: description,
+    email: author,
   };
 
   fetch(`https://reqres.in/api/users/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   })
     .then((response) => {
       if (response.ok) {
         Swal.fire({
-          icon: 'success',
-          title: '¡Actualización exitosa!',
-          text: 'Los cambios se han guardado correctamente.',
-          confirmButtonText: 'Aceptar',
+          icon: "success",
+          title: "¡Actualización exitosa!",
+          text: "Los cambios se han guardado correctamente.",
+          confirmButtonText: "Aceptar",
         });
 
         showAll();
 
-        const editModal = document.getElementById('editModal');
+        const editModal = document.getElementById("editModal");
         const bootstrapEditModal = new bootstrap.Modal(editModal);
         bootstrapEditModal.hide();
       } else {
         Swal.fire({
-          icon: 'error',
-          title: '¡Error!',
-          text: 'La actualización del registro no fue exitosa. Por favor, inténtalo nuevamente.',
-          confirmButtonText: 'Aceptar',
+          icon: "error",
+          title: "¡Error!",
+          text: "La actualización del registro no fue exitosa. Por favor, inténtalo nuevamente.",
+          confirmButtonText: "Aceptar",
         });
       }
     })
     .catch((error) => {
-      console.error('Error al actualizar el registro:', error);
+      console.error("Error al actualizar el registro:", error);
       Swal.fire({
-        icon: 'error',
-        title: '¡Error!',
-        text: 'Ha ocurrido un error al actualizar el registro. Por favor, inténtalo nuevamente.',
-        confirmButtonText: 'Aceptar',
+        icon: "error",
+        title: "¡Error!",
+        text: "Ha ocurrido un error al actualizar el registro. Por favor, inténtalo nuevamente.",
+        confirmButtonText: "Aceptar",
       });
     });
 }
 
 function deleteRecord() {
-  const id = document.getElementById('deleteId').value;
+  const id = document.getElementById("deleteId").value;
 
   if (!id) {
     Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Por favor, ingresa el ID del registro que deseas eliminar.',
-      confirmButtonText: 'Aceptar',
+      icon: "error",
+      title: "Error",
+      text: "Por favor, ingresa el ID del registro que deseas eliminar.",
+      confirmButtonText: "Aceptar",
     });
     return;
   }
 
   const url = `https://reqres.in/api/users/${id}`;
   fetch(url, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'accept': '*/*',
+      accept: "*/*",
     },
   })
     .then((response) => {
       if (response.status === 204) {
         Swal.fire({
-          icon: 'success',
-          title: '¡Eliminación exitosa!',
-          text: 'El registro ha sido eliminado correctamente.',
-          confirmButtonText: 'Aceptar',
+          icon: "success",
+          title: "¡Eliminación exitosa!",
+          text: "El registro ha sido eliminado correctamente.",
+          confirmButtonText: "Aceptar",
         });
 
         showAll();
       } else {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
     })
     .catch((error) => {
-      console.error('Error al eliminar el registro:', error);
+      console.error("Error al eliminar el registro:", error);
       Swal.fire({
-        icon: 'error',
-        title: '¡Error!',
-        text: 'No se pudo eliminar el registro.',
-        confirmButtonText: 'Aceptar',
+        icon: "error",
+        title: "¡Error!",
+        text: "No se pudo eliminar el registro.",
+        confirmButtonText: "Aceptar",
       });
     });
 
-  const deleteModal = document.getElementById('deleteModal');
+  const deleteModal = document.getElementById("deleteModal");
   const bootstrapDeleteModal = new bootstrap.Modal(deleteModal);
   bootstrapDeleteModal.hide();
-  document.getElementById('deleteId').value = '';
+  document.getElementById("deleteId").value = "";
 }
