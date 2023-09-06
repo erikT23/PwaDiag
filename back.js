@@ -84,7 +84,6 @@ function updateRecord() {
   const id = document.getElementById('editId').value;
   const title = document.getElementById('editTitle').value;
   const description = document.getElementById('editDescription').value;
-  const author = document.getElementById('editAuthor').value;
 
   if (!id || !title || !description || !author) {
     Swal.fire({
@@ -98,9 +97,9 @@ function updateRecord() {
   }
 
   const data = {
-    title: title,
-    description: description,
-    author: author,
+    name: title,
+    job: description,
+    
   };
 
   fetch(`https://reqres.in/api/users/${id}`, {
